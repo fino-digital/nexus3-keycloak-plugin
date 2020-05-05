@@ -1,18 +1,24 @@
+#!groovy
+
+String IMAGE_NAME = "finodigital/nexus3-keycloak"
+String IMAGE_VERSION = "3.22.1"
+
 node {
-   def mvnHome
-   stage('Preparation') {
-      git 'https://github.com/flytreeleft/nexus3-keycloak-plugin.git'
-      mvnHome = tool 'M3'
-   }
-   stage('Build') {
-      if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' clean install"
-      } else {
-         bat(/"${mvnHome}\bin\mvn" clean install/)
-      }
-   }
-   stage('Results') {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar'
-   }
+    try {
+        stage('Checkout') {
+            checkout(scm)
+        }
+
+        stage('Build') {
+            sh("docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NEXUS_VERSION=${IMAGE_VERSION} -f docker/Dockerfile .")
+        }
+
+        stage('Push') {
+            sh("docker push ${IMAGE_NAME}:${IMAGE_VERSION}")
+        }
+    }
+    finally {
+        sh("docker rmi ${IMAGE_NAME}:${IMAGE_VERSION} || true")
+        cleanWs()
+    }
 }
