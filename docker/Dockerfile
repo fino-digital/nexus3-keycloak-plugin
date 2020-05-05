@@ -1,9 +1,9 @@
 # https://github.com/sonatype/docker-nexus3
-FROM sonatype/nexus3
+ARG NEXUS_VERSION=latest
+FROM sonatype/nexus3:${NEXUS_VERSION}
 
 ENV SONATYPE_DIR="/opt/sonatype"
-ENV NEXUS_VERSION="3.19.1-01" \
-    NEXUS_HOME="${SONATYPE_DIR}/nexus" \
+ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
     NEXUS_DATA="/nexus-data" \
     SONATYPE_WORK=${SONATYPE_DIR}/sonatype-work \
     JAVA_MIN_MEM="1200M" \
