@@ -2,7 +2,7 @@
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 IMAGE_NAME=finodigital/nexus3-keycloak
-IMAGE_VERSION=3.22.1
+IMAGE_VERSION=3.23.0
 
 docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} \
              --build-arg NEXUS_VERSION=${IMAGE_VERSION} \

@@ -1,7 +1,7 @@
 #!groovy
 
 String IMAGE_NAME = "finodigital/nexus3-keycloak"
-String IMAGE_VERSION = "3.22.1"
+String IMAGE_VERSION = "3.23.0"
 
 node {
     try {
